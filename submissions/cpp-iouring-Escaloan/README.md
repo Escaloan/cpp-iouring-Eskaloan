@@ -99,6 +99,7 @@ Based on reading the other entries' source in this repository. "Others" lists wh
 | Queued `GET /api/tags` share one execution | Rust tokio | |
 | Shared list enrichment within one execution | Rust tokio | each distinct article enriched once per batch |
 | Feed `following` is the constant `true` | C# sockets | same snapshot, so identical to the reference |
+| Compile in O3 or other Optims | | |
 
 ### Used by only a few entries
 
@@ -113,7 +114,6 @@ Based on reading the other entries' source in this repository. "Others" lists wh
 | Technique | Measured effect |
 |---|---|
 | **Size-classed arena allocator** (see Memory design): per-loop, LIFO reuse, huge-page chunks, capped classes, one-copy growth. 0.0043 heap allocations per request vs 1.85 without it. | A/B against `malloc`/`free` with identical size classes (`kHeapBuffers`), 3 interleaved rounds: app CPU 43.4–43.8 vs 44.9–46.4 µs per request (3–6% less), p95 lower in every round (38–53 ms vs 49–75 ms), throughput +0.3% to +1.9%. About 1% of total CPU per request, because Postgres dominates. |
-| **Shared distinct counts within one execution.** In a shared list batch the capped count runs once per distinct filter value (once in total for the global list) instead of once per request. Other entries compute one count per request. | Not yet measured separately; switch `kShareCountsInExecution`. |
 | **bcrypt tables generated, not embedded.** The 1,042 Blowfish words in `src/bf_tables.hpp` were computed as hexadecimal digits of π (Machin's formula in exact integers) and checked against known values, rather than copied from another implementation. | Correctness only. |
 
 ## How changes are tested (A/B process)
