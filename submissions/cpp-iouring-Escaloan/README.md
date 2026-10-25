@@ -52,7 +52,7 @@ Front: direct
 Request-path memory comes from per-loop pools. The one exception is the tag list of a new article (a rare request), which uses `malloc`.
 
 - **Arena allocator.** Each event loop owns an arena with seven size classes, 1 KiB to 4 MiB in x4 steps (no
-  locking). Each class keeps its free buffers on a LIFO stack: the most recently released buffer, still in cache, is
+  locking). Each class keeps its free buffers on a LIFO queue: the most recently released buffer, still in cache, is
   handed out next. Memory is carved from 2 MiB
   chunks advised for transparent huge pages. Each class has a cap: at the cap an allocation fails cleanly (that request
   gets 503/500) instead of memory growing without bound. Separately, a loop stops reading new requests while it
