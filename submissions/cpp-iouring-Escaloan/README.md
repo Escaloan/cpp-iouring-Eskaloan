@@ -204,9 +204,3 @@ bash build.sh                 # bin/conduit (one g++ invocation, -O3 -march=nati
 DATABASE_URL=... JWT_SECRET=... HOST=0.0.0.0 PORT=80 bash start.sh
 bash test/run.sh submissions/cpp-iouring-Escaloan     # conformance (from the repository root)
 ```
-
-## Credits
-
-The SQL statements are adapted from the merged Rust entry (`submissions/rust-tokio-Scooter1337`, MIT); see
-`LICENSE`. Several techniques in the "standard" table were first measured by other entries, credited there. All
-code in this folder was written for this submission.
