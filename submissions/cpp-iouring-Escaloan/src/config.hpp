@@ -29,12 +29,9 @@ inline constexpr int kFeedMaxInflight = 2;     // read connections per loop that
 inline constexpr int kWriteBatchMax = 128;
 inline constexpr bool kTagsShareExecution = true;   // queued /api/tags requests share one execution
 inline constexpr bool kBatchReads = true;           // false = every read runs its single-form statement alone
-// List batches whose requests repeat (limit, offset, filter) enrich each distinct article once per execution.
 inline constexpr bool kListSharedEnrichment = true;
-// Within a shared execution, one capped count per distinct filter value instead of one per request.
-inline constexpr bool kShareCountsInExecution = true;
-// Feed batches enrich each distinct article once (viewers following the same popular authors overlap ~20-35%).
-inline constexpr bool kFeedSharedEnrichment = false;
+inline constexpr bool kShareCountsInExecution = true; 
+inline constexpr bool kFeedSharedEnrichment = false; // For testing purposes
 inline constexpr int kFeedSharedMinBatch = 2;
 inline constexpr int kDeepOffset = 200;             // offsets above this use the deep-offset statement forms
 inline constexpr int kPgStatementTimeoutMs = 5000;
