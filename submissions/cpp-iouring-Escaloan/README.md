@@ -174,15 +174,15 @@ Other measurements:
   moment), all connections re-established.
 - bcrypt: 102,064 random cases identical to libxcrypt (costs 4/5/10, `$2a$`/`$2b$`/`$2y$`).
 
-On an 8-vCPU / 16 GB Ubuntu Server 24.04 VM (Intel i7-12700K host), set up with `box/setup-box.sh` and run with the
+On an 8-vCPU / 16 GB Ubuntu Server 24.04 VM (Intel i7-11700K host), set up with `box/setup-box.sh` and run with the
 maintainer's `loadgen search` at real think time, both entries on the same machine:
 
-| 110,000 users, 2-minute probe | p95 | p99 |
+| 110,000 users, 5-minute probe | p95 | p99 |
 |---|--:|--:|
-| This server | 160 ms | 195 ms |
-| rust-tokio-Scooter1337 | 264 ms | 381 ms |
+| This server | 455 ms | 519 ms |
+| rust-tokio-Scooter1337 | 839 ms | 1,013 ms |
 
-The CPU split on that machine was 15% server, 77% Postgres.
+The CPU split for my solution on that machine was 15% server, 77% Postgres.
 
 ## Tunables (`src/config.hpp`, rebuild to change)
 
@@ -195,9 +195,6 @@ The CPU split on that machine was 15% server, 77% Postgres.
 | `kFeedMaxInflight` | 2 | read connections per loop that may run feed batches at once |
 | `kWriteBatchMax` | 128 | writes per group commit |
 | `kBcryptThreads` / `kBcryptBatchWaitMs` | 1 / 100 | bcrypt workers; wait to fill a 4-hash batch |
-| `kListSharedEnrichment`, `kShareCountsInExecution`, `kTagsShareExecution` | on | shared work within one execution |
-| `kFeedSharedEnrichment` | off | feed batches enrich each distinct article once (being measured) |
-| `kHeapBuffers` | off | A/B switch: buffers from `malloc` instead of the arena allocator |
 
 ## Build, run, test
 
